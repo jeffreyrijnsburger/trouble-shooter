@@ -4,6 +4,7 @@ public class PlayerScript : MonoBehaviour
 {
     public int Health = 100;
     public bool IsUnderAttack;
+    public bool IsFiring;
 
     public GameObject Bullet;
     public GameObject Grenade;
@@ -17,10 +18,18 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame.
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || IsFiring)
         {
-            var obj = Instantiate(Bullet, transform.position + (Vector3.down * 0.2f) + (transform.forward * 0.5f), transform.rotation);
-            obj.GetComponent<Rigidbody>().AddForce(transform.forward * 1000f);
+            var pos = new Vector3(0, 0, 0);
+            var obj = Instantiate(Bullet, pos, transform.rotation);
+
+            obj.GetComponent<Rigidbody>().AddForce(transform.forward * 2000f);
+            this.IsFiring = true;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            this.IsFiring = false;
         }
 
         if (Input.GetKeyDown(KeyCode.G))
