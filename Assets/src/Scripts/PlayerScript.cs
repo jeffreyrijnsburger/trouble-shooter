@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class PlayerScript : MonoBehaviour
 {
+    #region Stats
     public int Health = 100;
     public bool IsUnderAttack;
     public bool IsFiring;
+    #endregion
 
-    public GameObject Bullet;
+    #region Ammo
+    public GameObject AkBullet;
     public GameObject Grenade;
+    #endregion
 
     // Start is called before the first frame update.
     void Start()
@@ -18,24 +23,50 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame.
     void Update()
     {
+        // If AK is equipped.
         if (Input.GetMouseButtonDown(0) || IsFiring)
         {
-            var pos = new Vector3(0, 0, 0);
-            var obj = Instantiate(Bullet, pos, transform.rotation);
+            var akBulletRotation = Quaternion.AngleAxis(90, Vector3.left);
+            akBulletRotation.y = transform.rotation.y;
+            akBulletRotation.z = transform.rotation.z;
+            akBulletRotation.w = transform.rotation.w;
 
-            obj.GetComponent<Rigidbody>().AddForce(transform.forward * 2000f);
+            var akBullet = Instantiate(AkBullet, transform.position + (Vector3.down * 0.1f) + (transform.forward * 0.5f), akBulletRotation);
+
+            akBullet.GetComponent<Rigidbody>().AddForce(transform.forward * 2000f);
+
+            // Play shooting audio JR
+            if (!this.IsFiring)
+            {
+                var akAudio = GameObject.FindWithTag("Weapon_AKM_main").GetComponents<AudioSource>();
+                akAudio[0].loop = true;
+                akAudio[0].Play();
+            }
+
             this.IsFiring = true;
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            this.IsFiring = false;
         }
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            var obj = Instantiate(Grenade, transform.position + (Vector3.down * 0.5f) + (transform.forward * 0.7f), transform.rotation);
-            obj.GetComponent<Rigidbody>().AddForce(transform.forward * 500f);
+            var grenade = Instantiate(Grenade,
+                transform.position + (Vector3.down * 0.5f) + (transform.forward * 0.7f),
+                transform.rotation);
+
+            grenade.GetComponent<Rigidbody>().AddForce(transform.forward * 500f);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            // Stop shooting audio JR
+            if (this.IsFiring)
+            {
+                var akAudio = GameObject.FindWithTag("Weapon_AKM_main").GetComponents<AudioSource>();
+                akAudio[0].loop = false;
+                akAudio[0].Stop();
+            }
+
+
+            this.IsFiring = false;
         }
     }
 

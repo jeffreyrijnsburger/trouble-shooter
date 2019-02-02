@@ -1,5 +1,8 @@
 fileFormatVersion: 2
-guid: 508550b6351a12e4b8521c58fd9cdd35
+guid: 105e3fc0cea0e544c81e2cd30baedbe3
+labels:
+- Firing
+- Weapon
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
