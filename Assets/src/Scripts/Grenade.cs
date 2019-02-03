@@ -24,7 +24,7 @@ public class Grenade : MonoBehaviour
     void Update()
     {
         // Update pitch on the sound JR
-        audioSource.pitch += 0.02f;
+        audioSource.pitch += 0.04f;
 
         countdown -= Time.deltaTime;
 
