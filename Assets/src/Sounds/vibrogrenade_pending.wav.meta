@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: c025c0e1374c00045a03eed4d6a8d60e
+labels:
+- Weapon
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
